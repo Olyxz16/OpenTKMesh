@@ -22,7 +22,12 @@ public class Mesh
     public Mesh(float[] vertices, uint[] triangles)
     : this(vertices, triangles, Shader.Default) {}
 
-    public Mesh(float[] vertices, uint[] triangles, Shader shader) {
+    public Mesh(float[] vertices, uint[] triangles, Shader shader) 
+    {
+        if(!Validate(vertices, triangles))
+        {
+            throw new ArgumentException("Invalid arguments.");
+        }
         _vertices = vertices;
         _triangles = triangles;
         _shader = shader;
@@ -34,6 +39,10 @@ public class Mesh
         Load();
     }
 
+    private static bool Validate(float[] vertices, uint[] triangles)
+    {
+        return triangles.Max() < vertices.Length;
+    }
 
     public void Load() {
         GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
