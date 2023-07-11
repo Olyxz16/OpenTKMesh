@@ -1,6 +1,6 @@
 using OpenTK.Graphics.OpenGL;
 
-namespace OpenTKMesh;
+namespace OpenTKMesh.Shading;
 
 public class Shader
 {
@@ -8,7 +8,7 @@ public class Shader
     public static Shader Default => FromPath("./src/Shader/Default/Default.vert", "./src/Shader/Default/Default.frag");
 
 
-    readonly int Handle;
+    public int Handle { get; private set; }
 
 
     private Shader(int handle)
