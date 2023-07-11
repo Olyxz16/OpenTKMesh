@@ -5,7 +5,7 @@ namespace OpenTKMesh.Shading;
 public class Shader
 {
 
-    public static Shader Default => FromPath("./src/Shader/Default/Default.vert", "./src/Shader/Default/Default.frag");
+    public static Shader Default = FromPath("./src/Shader/Default/Default.vert", "./src/Shader/Default/Default.frag");
 
 
     public int Handle { get; private set; }
