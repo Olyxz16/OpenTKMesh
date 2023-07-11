@@ -53,6 +53,8 @@ public class Mesh
     }
 
     public void Load() {
+        MeshHandler.Add(this);
+
         GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
         GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
     
