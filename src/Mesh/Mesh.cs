@@ -1,11 +1,18 @@
+using System;
+using System.Runtime.InteropServices;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
+using OpenTKMesh.Shading;
 
 namespace OpenTKMesh;
 
 public class Mesh
 {
-    
+
+    public Vector3 Position { get; private set; }
+    public Vector3 Rotation { get; private set; }
+    public Vector3 Scale { get; private set; }
+
     private float[] _vertices;
     private uint[] _triangles;
 
@@ -15,9 +22,6 @@ public class Mesh
     private int VAO;     // VertexArrayObject
     private int EBO;     // ElementBufferObject
 
-    
-    public Mesh()
-    : this(new float[10], new uint[10], Shader.Default) {}
 
     public Mesh(float[] vertices, uint[] triangles)
     : this(vertices, triangles, Shader.Default) {}
@@ -31,6 +35,10 @@ public class Mesh
         _vertices = vertices;
         _triangles = triangles;
         _shader = shader;
+
+        Position = Vector3.Zero;
+        Rotation = Vector3.Zero;
+        Scale = Vector3.One;
 
         VBO = GL.GenBuffer();
         VAO = GL.GenVertexArray();
@@ -57,14 +65,53 @@ public class Mesh
     }
 
     public void Draw() {
+        ApplyTransform();
+        GL.BindBuffer(BufferTarget.ArrayBuffer, VBO); 
+        GL.BindVertexArray(VAO);
+        GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
         _shader.Use();
         GL.DrawElements(PrimitiveType.Triangles, _triangles.Length, DrawElementsType.UnsignedInt, 0);
     }
 
 
+    private void ApplyTransform() 
+    {
+        Matrix4 position = Matrix4.CreateTranslation(Position);
+        Matrix4 rotation = Matrix4.CreateRotationZ(Rotation.Z);
+        Matrix4 scale = Matrix4.CreateScale(Scale);
+        Matrix4 transform = scale * rotation * position;
+        GL.UseProgram(_shader.Handle);
+        int location = GL.GetUniformLocation(_shader.Handle, "transform");
+        GL.UniformMatrix4(location, true, ref transform);
+    }
 
-    public static Mesh Triangle(Vector3 v1, Vector3 v2, Vector3 v3) {
-        var vertices = new float[9] {
+
+
+    private void ApplyMatrixTransform(Matrix4 matrix)
+    {
+        GL.UseProgram(_shader.Handle);
+        int location = GL.GetUniformLocation(_shader.Handle, "transform");
+        GL.UniformMatrix4(location, true, ref matrix);
+    }
+    public void Move(Vector3 dir)
+    {
+        Position += dir;
+    }
+    public void MoveAt(Vector3 position)
+    {
+        Position = position;
+    }
+    public void Rotate(Vector3 rotation)
+    {
+        Rotation += rotation;
+    }
+    public void Resize(Vector3 scale)
+    {
+        Scale *= scale;
+    }
+
+
+
     public static Mesh Triangle(Vector3 v1, Vector3 v2, Vector3 v3, Shader shader = null) {
         shader ??= Shader.Default;
         var vertices = new float[9] 
@@ -125,9 +172,7 @@ public class Mesh
 
     // A faire
     public static Mesh Combine(Mesh mesh1, Mesh mesh2) {
-        return new Mesh();
+        return null;
     }
-
-
 
 }
