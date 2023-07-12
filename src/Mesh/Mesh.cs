@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using OpenTKMesh.Shading;
+using OpenTKMesh.Materials;
 
 namespace OpenTKMesh;
 
@@ -16,7 +17,7 @@ public class Mesh
     private float[] _vertices;
     private uint[] _triangles;
 
-    private Shader _shader;
+    private Material _material;
 
     private int VBO;     // VertexBufferObject
     private int VAO;     // VertexArrayObject
@@ -24,21 +25,21 @@ public class Mesh
 
 
     public Mesh(float[] vertices, uint[] triangles)
-    : this(vertices, triangles, Shader.Default) {}
+    : this(vertices, triangles, Material.Default) {}
 
-    public Mesh(float[] vertices, uint[] triangles, Shader shader) 
+    public Mesh(float[] vertices, uint[] triangles, Material material) 
     {
         if(!Validate(vertices, triangles))
         {
             throw new ArgumentException("Invalid arguments.");
         }
-        _vertices = vertices;
-        _triangles = triangles;
-        _shader = shader;
-
         Position = Vector3.Zero;
         Rotation = Vector3.Zero;
         Scale = Vector3.One;
+
+        _vertices = vertices;
+        _triangles = triangles;
+        _material = material;
 
         VBO = GL.GenBuffer();
         VAO = GL.GenVertexArray();
@@ -71,7 +72,7 @@ public class Mesh
         GL.BindBuffer(BufferTarget.ArrayBuffer, VBO); 
         GL.BindVertexArray(VAO);
         GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
-        _shader.Use();
+        _material.Use();
         GL.DrawElements(PrimitiveType.Triangles, _triangles.Length, DrawElementsType.UnsignedInt, 0);
     }
 

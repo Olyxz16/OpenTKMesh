@@ -1,15 +1,16 @@
 using System;
 using OpenTK.Mathematics;
 using OpenTKMesh.Shading;
+using OpenTKMesh.Materials;
 
 namespace OpenTKMesh;
 
 public static class Primitives
 {
 
-	public static Mesh InstantiateTriangle(Vector3 v1, Vector3 v2, Vector3 v3, Shader shader = null)
+	public static Mesh InstantiateTriangle(Vector3 v1, Vector3 v2, Vector3 v3, Material material = null)
 	{
-		shader ??= Shader.Default;
+		material ??= Material.Default;
 		var vertices = new float[9]
 		{
 			v1.X, v1.Y, v1.Z,
@@ -20,12 +21,12 @@ public static class Primitives
 		{
 			0, 1, 2
 		};
-		return new Mesh(vertices, triangles, shader);
+		return new Mesh(vertices, triangles, material);
 	}
 
-	public static Mesh InstantiateQuad(Vector3 center, float size, Shader shader = null)
+	public static Mesh InstantiateQuad(Vector3 center, float size, Material material = null)
 	{
-		shader ??= Shader.Default;
+		material ??= Material.Default;
 		float[] vertices = {
 			0.5f*size  + center.X,  0.5f*size + center.Y, 0.0f,
 			0.5f*size  + center.X, -0.5f*size + center.Y, 0.0f,
@@ -36,12 +37,12 @@ public static class Primitives
 			0, 1, 2,
 			0, 2, 3
 		};
-		return new Mesh(vertices, triangles, shader);
+		return new Mesh(vertices, triangles, material);
 	}
 
-	public static Mesh InstanteCircle(Vector3 center, float radius, Shader shader = null)
+	public static Mesh InstanteCircle(Vector3 center, float radius, Material material = null)
 	{
-		shader ??= Shader.Default;
+		material ??= Material.Default;
 		// A mettre dans une const ?
 		uint verticesCount = 32;
 		float[] vertices = new float[3 * (verticesCount + 1)];
@@ -63,7 +64,7 @@ public static class Primitives
 		triangles[3 * verticesCount - 3] = 0;
 		triangles[3 * verticesCount - 2] = 1;
 		triangles[3 * verticesCount - 1] = verticesCount;
-		return new Mesh(vertices, triangles, shader);
+		return new Mesh(vertices, triangles, material);
 
 	}
 
