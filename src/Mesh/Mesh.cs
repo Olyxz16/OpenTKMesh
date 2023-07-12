@@ -79,9 +79,11 @@ public class Mesh
     private void ApplyTransform() 
     {
         Matrix4 position = Matrix4.CreateTranslation(Position);
-        Matrix4 rotation = Matrix4.CreateRotationZ(Rotation.Z);
+        Matrix4 rotationX = Matrix4.CreateRotationX(Rotation.X);
+        Matrix4 rotationY = Matrix4.CreateRotationY(Rotation.Y);
+        Matrix4 rotationZ = Matrix4.CreateRotationZ(Rotation.Z);
         Matrix4 scale = Matrix4.CreateScale(Scale);
-        Matrix4 transform = scale * rotation * position;
+        Matrix4 transform = scale * rotationX * rotationY * rotationZ * position;
         GL.UseProgram(_shader.Handle);
         int location = GL.GetUniformLocation(_shader.Handle, "transform");
         GL.UniformMatrix4(location, true, ref transform);
