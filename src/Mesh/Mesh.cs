@@ -76,7 +76,28 @@ public class Mesh
     }
 
 
-    private void ApplyTransform() 
+    public void Move(Vector3 dir)
+    {
+        Position += dir;
+        ApplyTransform();
+    }
+    public void MoveAt(Vector3 position)
+    {
+        Position = position;
+        ApplyTransform();
+    }
+    public void Rotate(Vector3 rotation)
+    {
+        Rotation += rotation;
+        ApplyTransform();
+    }
+    public void Resize(Vector3 scale)
+    {
+        Scale *= scale;
+        ApplyTransform();
+    }
+
+    private void ApplyTransform()
     {
         Matrix4 position = Matrix4.CreateTranslation(Position);
         Matrix4 rotationX = Matrix4.CreateRotationX(Rotation.X);
@@ -84,33 +105,9 @@ public class Mesh
         Matrix4 rotationZ = Matrix4.CreateRotationZ(Rotation.Z);
         Matrix4 scale = Matrix4.CreateScale(Scale);
         Matrix4 transform = scale * rotationX * rotationY * rotationZ * position;
-        GL.UseProgram(_shader.Handle);
-        int location = GL.GetUniformLocation(_shader.Handle, "transform");
+        GL.UseProgram(_material.Handle);
+        int location = GL.GetUniformLocation(_material.Handle, "transform");
         GL.UniformMatrix4(location, true, ref transform);
-    }
-
-
-    public void Move(Vector3 dir)
-    {
-        Position += dir;
-    }
-    public void MoveAt(Vector3 position)
-    {
-        Position = position;
-    }
-    public void Rotate(Vector3 rotation)
-    {
-        Rotation += rotation;
-    }
-    public void Resize(Vector3 scale)
-    {
-        Scale *= scale;
-    }
-
-
-    // A faire
-    public static Mesh Combine(Mesh mesh1, Mesh mesh2) {
-        return null;
     }
 
 }
