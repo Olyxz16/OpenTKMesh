@@ -8,6 +8,8 @@ namespace OpenTKMesh;
 public static class Primitives
 {
 
+	private const uint CIRCLE_VERTEX_COUNT = 32;
+
 	public static Mesh InstantiateTriangle(Vector3 v1, Vector3 v2, Vector3 v3, Material material = null)
 	{
 		material ??= Material.Default;
@@ -43,27 +45,25 @@ public static class Primitives
 	public static Mesh InstanteCircle(Vector3 center, float radius, Material material = null)
 	{
 		material ??= Material.Default;
-		// A mettre dans une const ?
-		uint verticesCount = 32;
-		float[] vertices = new float[3 * (verticesCount + 1)];
+		float[] vertices = new float[3 * (CIRCLE_VERTEX_COUNT + 1)];
 		vertices[0] = center.X;
-		for (int i = 1; i <= verticesCount; i++)
+		for (int i = 1; i <= CIRCLE_VERTEX_COUNT; i++)
 		{
-			float angle = 2f * (float)Math.PI * (float)i / (float)verticesCount;
+			float angle = 2f * (float)Math.PI * (float)i / (float)CIRCLE_VERTEX_COUNT;
 			vertices[3 * i + 0] = center.X + radius * (float)Math.Cos(angle);
 			vertices[3 * i + 1] = center.Y + radius * (float)Math.Sin(angle);
 			vertices[3 * i + 2] = center.Z;
 		}
-		uint[] triangles = new uint[3 * verticesCount];
-		for (uint i = 0; i < verticesCount; i++)
+		uint[] triangles = new uint[3 * CIRCLE_VERTEX_COUNT];
+		for (uint i = 0; i < CIRCLE_VERTEX_COUNT; i++)
 		{
 			triangles[3 * i + 0] = 0;
 			triangles[3 * i + 1] = i + 1;
 			triangles[3 * i + 2] = i + 2;
 		}
-		triangles[3 * verticesCount - 3] = 0;
-		triangles[3 * verticesCount - 2] = 1;
-		triangles[3 * verticesCount - 1] = verticesCount;
+		triangles[3 * CIRCLE_VERTEX_COUNT - 3] = 0;
+		triangles[3 * CIRCLE_VERTEX_COUNT - 2] = 1;
+		triangles[3 * CIRCLE_VERTEX_COUNT - 1] = CIRCLE_VERTEX_COUNT;
 		return new Mesh(vertices, triangles, material);
 
 	}
