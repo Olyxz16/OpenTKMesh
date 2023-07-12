@@ -37,6 +37,7 @@ public class Shader
         GL.GetShader(VertexShader, ShaderParameter.CompileStatus, out int success);
         if (success == 0)
         {
+            throw new Exception("Error compiling vertex shader !");
             string infoLog = GL.GetShaderInfoLog(VertexShader);
             Console.WriteLine(infoLog);
         }
@@ -45,6 +46,7 @@ public class Shader
         GL.GetShader(FragmentShader, ShaderParameter.CompileStatus, out success);
         if (success == 0)
         {
+            throw new Exception("Error compiling fragment shader !");
             string infoLog = GL.GetShaderInfoLog(FragmentShader);
             Console.WriteLine(infoLog);
         }
@@ -59,6 +61,7 @@ public class Shader
         GL.GetProgram(Handle, GetProgramParameterName.LinkStatus, out success);
         if (success == 0)
         {
+            throw new Exception("Error compiling shader !");
             string infoLog = GL.GetProgramInfoLog(Handle);
             Console.WriteLine(infoLog);
         }
