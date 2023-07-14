@@ -8,7 +8,7 @@ namespace OpenTKMesh.Materials;
 public abstract class Material
 {
 
-    public static FlatColorMaterial Default => new FlatColorMaterial();
+    public static UnlitMaterial Default => new UnlitMaterial();
 
     public Vector4 Albedo { get; protected set; }
 
