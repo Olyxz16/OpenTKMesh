@@ -16,6 +16,7 @@ public class Mesh
 
     private float[] _vertices;
     private uint[] _triangles;
+    private float[] _uvs;
 
     private Material _material;
 
@@ -24,21 +25,21 @@ public class Mesh
     private int EBO;     // ElementBufferObject
 
 
-    public Mesh(float[] vertices, uint[] triangles)
-    : this(vertices, triangles, Material.Default) {}
-
-    public Mesh(float[] vertices, uint[] triangles, Material material) 
+    public Mesh(float[] vertices, uint[] triangles, float[] uvs, Material material)
     {
-        if(!Validate(vertices, triangles))
+        if (!Validate(vertices, triangles))
         {
             throw new ArgumentException("Invalid arguments.");
         }
+        
         Position = Vector3.Zero;
         Rotation = Vector3.Zero;
         Scale = Vector3.One;
 
         _vertices = vertices;
         _triangles = triangles;
+        _uvs = uvs;
+
         _material = material;
 
         VBO = GL.GenBuffer();
@@ -47,6 +48,7 @@ public class Mesh
 
         Load();
     }
+
 
     private static bool Validate(float[] vertices, uint[] triangles)
     {
@@ -59,12 +61,11 @@ public class Mesh
         GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
         GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
     
-        GL.BindVertexArray(VAO);
-        GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-        GL.EnableVertexAttribArray(0);
+        _material.SetAttrib(VAO);
 
         GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
         GL.BufferData(BufferTarget.ElementArrayBuffer, _triangles.Length * sizeof(uint), _triangles, BufferUsageHint.StaticDraw);
+
     }
 
     public void Draw() {
