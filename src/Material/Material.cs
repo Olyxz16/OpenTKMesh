@@ -34,12 +34,10 @@ public abstract class Material
     public void SetAttrib(int VAO)
     {
         GL.BindVertexArray(VAO);
-        //var vertexLocation = _shader.GetAttribLocation("aPosition");
-        var vertexLocation = 0;
+        var vertexLocation = GL.GetAttribLocation(Handle, "aPosition");
         GL.EnableVertexAttribArray(vertexLocation);
         GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
-        //var texCoordLocation = _shader.GetAttribLocation("aTexCoord");
-        var texCoordLocation = 1;
+        var texCoordLocation = GL.GetAttribLocation(Handle, "aTexCoord");
         GL.EnableVertexAttribArray(texCoordLocation);
         GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
     }
