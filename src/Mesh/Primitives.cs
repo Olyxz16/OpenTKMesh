@@ -93,4 +93,49 @@ public static class Primitives
 		return mesh;
 	}
 
+
+	public static Mesh InstantiateCube(Vector3 center, float size, Material material = null)
+	{
+		material ??= Material.Default;
+		var vertices = new float[24]
+		{
+            -0.5f, -0.5f, 0.5f, //0
+			0.5f, -0.5f, 0.5f, //1
+			-0.5f, 0.5f , 0.5f, //2
+			0.5f, 0.5f , 0.5f, //3
+
+            -0.5f, -0.5f, -0.5f, //4
+			 0.5f, -0.5f, -0.5f, //5
+			-0.5f, 0.5f , -0.5f, //6
+			 0.5f, 0.5f , -0.5f  //7
+		};
+		var triangles = new uint[36]
+		{
+			2, 6, 7,
+			2, 3, 7,
+
+			0, 4, 5,
+			0, 1, 5,
+
+			0, 2, 6,
+			0, 4, 6,
+
+			1, 3, 7,
+			1, 5, 7,
+
+			0, 2, 3,
+			0, 1, 3,
+
+			4, 6, 7,
+			4, 5, 7
+        };
+		float[] uvs =
+		{
+
+		};
+		var mesh = new Mesh(vertices, triangles, uvs, material);
+		mesh.MoveAt(center);
+		mesh.Resize(new Vector3(size, size, size));
+		return mesh;
+	}
 }
