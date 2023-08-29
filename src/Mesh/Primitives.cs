@@ -36,23 +36,26 @@ public static class Primitives
 	{
 		material ??= Material.Default;
 		float[] vertices = {
-			0.5f*size  + center.X,  0.5f*size + center.Y, 0.0f, 1f, 1f,
-			0.5f*size  + center.X, -0.5f*size + center.Y, 0.0f, 1f, 0f,
-			-0.5f*size + center.X, -0.5f*size + center.Y, 0.0f, 0f, 0f,
-			-0.5f*size + center.X,  0.5f*size + center.Y, 0.0f, 0f, 1f
-		};
+            0.5f,  0.5f, 0.0f,  // top right
+			 0.5f, -0.5f, 0.0f,  // bottom right
+			-0.5f, -0.5f, 0.0f, // bottom left
+			-0.5f,  0.5f, 0.0f,
+        };
 		uint[] triangles = {
-			0, 1, 2,
-			0, 2, 3
+			0, 1, 3,
+			1, 2, 3
 		};
 		float[] uvs =
 		{
 			1f, 1f,
 			1f, 0f,
-			0f, 0f,
-			0f, 1f
-		};
-		return new Mesh(vertices, triangles, uvs, material);
+            0f, 0f,
+            0f, 1f,
+        };
+		var mesh = new Mesh(vertices, triangles, uvs, material);
+		mesh.MoveAt(center);
+		mesh.Resize(new Vector3(size, size, size));
+		return mesh;
 	}
 
 	public static Mesh InstanteCircle(Vector3 center, float radius, Material material = null)
@@ -63,8 +66,8 @@ public static class Primitives
 		for (int i = 1; i <= CIRCLE_VERTEX_COUNT; i++)
 		{
 			float angle = 2f * (float)Math.PI * (float)i / (float)CIRCLE_VERTEX_COUNT;
-			vertices[3 * i + 0] = center.X + radius * (float)Math.Cos(angle);
-			vertices[3 * i + 1] = center.Y + radius * (float)Math.Sin(angle);
+			vertices[3 * i + 0] = (float)Math.Cos(angle);
+			vertices[3 * i + 1] = (float)Math.Sin(angle);
 			vertices[3 * i + 2] = center.Z;
 		}
 		uint[] triangles = new uint[3 * CIRCLE_VERTEX_COUNT];
@@ -84,8 +87,10 @@ public static class Primitives
         triangles[3 * CIRCLE_VERTEX_COUNT - 3] = 0;
 		triangles[3 * CIRCLE_VERTEX_COUNT - 2] = 1;
 		triangles[3 * CIRCLE_VERTEX_COUNT - 1] = CIRCLE_VERTEX_COUNT;
-		return new Mesh(vertices, triangles, uvs, material);
-
+		var mesh = new Mesh(vertices, triangles, uvs, material);
+		mesh.MoveAt(center);
+		mesh.Resize(new Vector3(radius, radius, radius));
+		return mesh;
 	}
 
 }
