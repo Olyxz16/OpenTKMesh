@@ -58,14 +58,42 @@ public class Mesh
     public void Load() {
         MeshHandler.Add(this);
 
+        (float[] verts, uint[] tris) result = UnfoldVertices(_vertices, _triangles);
+        float[] vertexData = CombineVertexData(result.verts, _uvs);
+
         GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-        GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
+        GL.BufferData(BufferTarget.ArrayBuffer, vertexData.Length * sizeof(float), vertexData, BufferUsageHint.StaticDraw);
     
         _material.SetAttrib(VAO);
 
         GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
-        GL.BufferData(BufferTarget.ElementArrayBuffer, _triangles.Length * sizeof(uint), _triangles, BufferUsageHint.StaticDraw);
-
+        GL.BufferData(BufferTarget.ElementArrayBuffer, result.tris.Length * sizeof(uint), result.tris, BufferUsageHint.StaticDraw);
+    }
+    private (float[], uint[]) UnfoldVertices(float[] vertices, uint[] triangles)
+    {
+        float[] resultVertices = new float[3 * triangles.Length];
+        uint[] resultTriangles = new uint[triangles.Length];
+        for(uint i = 0; i < triangles.Length; i++)
+        {
+            resultVertices[3 * i + 0] = vertices[triangles[i] + 0];
+            resultVertices[3 * i + 1] = vertices[triangles[i] + 1];
+            resultVertices[3 * i + 2] = vertices[triangles[i] + 2];
+            resultTriangles[i] = i;
+        }
+        return (resultVertices, resultTriangles);
+    }
+    private float[] CombineVertexData(float[] vertices, float[] uvs)
+    {
+        float[] result = new float[vertices.Length + uvs.Length];
+        for (int i = 0; i < vertices.Length / 3; i++)
+        {
+            result[5 * i + 0] = vertices[3 * i + 0];
+            result[5 * i + 1] = vertices[3 * i + 1];
+            result[5 * i + 2] = vertices[3 * i + 2];
+            result[5 * i + 3] = uvs[2 * i + 0];
+            result[5 * i + 4] = uvs[2 * i + 1];
+        }
+        return result;
     }
 
     public void Draw() {
