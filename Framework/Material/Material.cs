@@ -1,6 +1,5 @@
 using OpenTK.Mathematics;
 using OpenTK.Graphics.OpenGL;
-using System.Runtime.InteropServices;
 using OpenTKMesh.Shading;
 
 namespace OpenTKMesh.Materials;
@@ -9,7 +8,7 @@ namespace OpenTKMesh.Materials;
 public abstract class Material
 {
 
-    public static UnlitMaterial Default => new UnlitMaterial();
+    public static UnlitMaterial Default => UnlitMaterial.Default;
 
     public Vector4 Albedo { get; protected set; }
     public Texture Texture { get; protected set; }
@@ -17,7 +16,7 @@ public abstract class Material
     public int Handle => _shader.Handle;
     protected Shader _shader;
 
-
+    
     public Material(Vector4 albedo, Texture texture)
     {
         Albedo = albedo;
