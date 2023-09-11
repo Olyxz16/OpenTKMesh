@@ -45,8 +45,7 @@ public static class Primitives
 			0, 1, 3,
 			1, 2, 3
 		};
-		float[] uvs =
-		{
+		float[] uvs = {
 			1f, 1f,
 			1f, 0f,
             0f, 0f,
@@ -100,9 +99,9 @@ public static class Primitives
 		var vertices = new float[24]
 		{
             -0.5f, -0.5f, 0.5f, //0
-			0.5f, -0.5f, 0.5f, //1
+			 0.5f, -0.5f, 0.5f, //1
 			-0.5f, 0.5f , 0.5f, //2
-			0.5f, 0.5f , 0.5f, //3
+			 0.5f, 0.5f , 0.5f, //3
 
             -0.5f, -0.5f, -0.5f, //4
 			 0.5f, -0.5f, -0.5f, //5
@@ -131,7 +130,15 @@ public static class Primitives
         };
 		float[] uvs =
 		{
+			0, 0,
+			0, 0,
+			0, 0, 
+			0, 0,
 
+			0, 0,
+			0, 0, 
+			0, 0, 
+			0, 0,
 		};
 		var mesh = new Mesh(vertices, triangles, uvs, material);
 		mesh.MoveAt(center);
