@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenTKMesh", "OpenTKMesh.csproj", "{E122E64D-E811-4CFF-9063-C5877D9D6A01}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTKMesh", "Framework\OpenTKMesh.csproj", "{A9224CE1-66D0-48A0-A66D-57341E30EF6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basic", "Examples\Basic\Basic.csproj", "{2A205689-CEAE-4864-AFBD-B24BE4C639FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,11 +17,22 @@ Global
 		{E122E64D-E811-4CFF-9063-C5877D9D6A01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E122E64D-E811-4CFF-9063-C5877D9D6A01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E122E64D-E811-4CFF-9063-C5877D9D6A01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9224CE1-66D0-48A0-A66D-57341E30EF6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9224CE1-66D0-48A0-A66D-57341E30EF6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9224CE1-66D0-48A0-A66D-57341E30EF6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9224CE1-66D0-48A0-A66D-57341E30EF6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A205689-CEAE-4864-AFBD-B24BE4C639FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A205689-CEAE-4864-AFBD-B24BE4C639FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A205689-CEAE-4864-AFBD-B24BE4C639FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A205689-CEAE-4864-AFBD-B24BE4C639FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {130BFDF5-8B94-44EC-99E8-6FF0433297DF}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2A205689-CEAE-4864-AFBD-B24BE4C639FD} = {387EBD3C-DA41-4751-A85E-675B104DE061}
 	EndGlobalSection
 EndGlobal
