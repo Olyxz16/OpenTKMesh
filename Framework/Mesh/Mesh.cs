@@ -58,8 +58,9 @@ public class Mesh
     public void Load() {
         MeshHandler.Add(this);
 
-        (float[] verts, uint[] tris) result = UnfoldVertices(_vertices, _triangles);
-        float[] vertexData = CombineVertexData(result.verts, _uvs);
+        //(float[] verts, uint[] tris) result = UnfoldVertices(_vertices, _triangles);
+        //float[] vertexData = CombineVertexData(result.verts, _uvs);
+        float[] vertexData = CombineVertexData(_vertices, _uvs);
 
         GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
         GL.BufferData(BufferTarget.ArrayBuffer, vertexData.Length * sizeof(float), vertexData, BufferUsageHint.StaticDraw);
@@ -67,9 +68,10 @@ public class Mesh
         _material.SetAttrib(VAO);
 
         GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
-        GL.BufferData(BufferTarget.ElementArrayBuffer, result.tris.Length * sizeof(uint), result.tris, BufferUsageHint.StaticDraw);
+        //GL.BufferData(BufferTarget.ElementArrayBuffer, result.tris.Length * sizeof(uint), result.tris, BufferUsageHint.StaticDraw);
+        GL.BufferData(BufferTarget.ElementArrayBuffer, _triangles.Length * sizeof(uint), _triangles, BufferUsageHint.StaticDraw);
     }
-    private (float[], uint[]) UnfoldVertices(float[] vertices, uint[] triangles)
+    /*private (float[], uint[]) UnfoldVertices(float[] vertices, uint[] triangles)
     {
         float[] resultVertices = new float[3 * triangles.Length];
         uint[] resultTriangles = new uint[triangles.Length];
@@ -81,12 +83,15 @@ public class Mesh
             resultTriangles[i] = i;
         }
         return (resultVertices, resultTriangles);
-    }
+    }*/
     private float[] CombineVertexData(float[] vertices, float[] uvs)
     {
         float[] result = new float[vertices.Length + uvs.Length];
+        Console.WriteLine(vertices.Length);
+        Console.WriteLine(uvs.Length);
         for (int i = 0; i < vertices.Length / 3; i++)
         {
+            Console.WriteLine(i);
             result[5 * i + 0] = vertices[3 * i + 0];
             result[5 * i + 1] = vertices[3 * i + 1];
             result[5 * i + 2] = vertices[3 * i + 2];
